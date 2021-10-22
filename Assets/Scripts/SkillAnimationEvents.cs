@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillAnimationEvents : MonoBehaviour
+//Every skill has an animation by the player character, 
+//this script redirects their animation events to the event manager so that they could trigger non-Monobehaviour methods
+
+public class SkillAnimationEvents : MonoBehaviour 
 {
     Player player;
 
@@ -14,6 +17,11 @@ public class SkillAnimationEvents : MonoBehaviour
 
     public void OnJabStart()
     {
-        (player.chakraSkills[1] as JabSkill).OnJabStart();
+        (player.chakraSkills[0] as JabSkill).OnJabStart();
+    }
+
+    public void OnFireballLaunch()
+    {
+        (player.chakraSkills[1] as FireballSkill).OnFireballLaunch();
     }
 }

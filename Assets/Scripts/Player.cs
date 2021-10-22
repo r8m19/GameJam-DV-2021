@@ -6,8 +6,10 @@ public class Player : MonoBehaviour
 {
     public float speed;
     public ChakraSkill[] chakraSkills = new ChakraSkill[7];
-    public KeyCode[] attackInputs = new KeyCode[7];
+    public ChakraIcon[]  chakraIcons  = new ChakraIcon[7];
+    public KeyCode[]     attackInputs = new KeyCode[7];
 
+    [HideInInspector] public Vector2 aimVector;
     [HideInInspector] public Animator anim;
 
     private void Awake()
@@ -16,12 +18,11 @@ public class Player : MonoBehaviour
             anim = GetComponent<Animator>();
 
         InitializeSkills();
+        
     }
 
     private void Update()
     {
-        Move();
-
         for (int i = 0; i < 7; i++)
         {
             if (Input.GetKeyDown(attackInputs[i]))
@@ -31,16 +32,36 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
     void InitializeSkills()
     {
-        for (int i = 0; i < 7; i++)
+        chakraSkills[0] = new JabSkill(this, chakraIcons[0]);
+        chakraSkills[1] = new FireballSkill(this, chakraIcons[1]);
+        chakraSkills[2] = new DashSkill(this, chakraIcons[2]);
+
+        for (int i = 3; i < 7; i++)
         {
-            chakraSkills[i] = new JabSkill(this);
-        }
+            chakraSkills[i] = new JabSkill(this, chakraIcons[i]);
+        }        
     }
 
     void Move()
     {
+        aimVector.x = Input.GetAxisRaw("Horizontal");
+        aimVector.y = Input.GetAxisRaw("Vertical");
+        aimVector.Normalize();
+
         transform.position += (Input.GetAxis("Horizontal") * Vector3.right + Input.GetAxis("Vertical") * Vector3.up) * Time.deltaTime * speed;
+        transform.right = aimVector;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + aimVector);
     }
 }
