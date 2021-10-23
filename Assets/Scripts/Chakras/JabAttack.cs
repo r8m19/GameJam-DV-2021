@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JabAttack : MonoBehaviour
+public class JabAttack : MonoBehaviour, IPlayerAttack
 {
     public float speed;
+    private int hitstun = 10;
+
     private void Start()
     {
         StartCoroutine(Attack());
@@ -28,5 +30,10 @@ public class JabAttack : MonoBehaviour
         {
             EventManager.Instance.Trigger("OnJabHit");
         }
+    }
+
+    int IPlayerAttack.GetHitstun()
+    {
+        return hitstun;
     }
 }

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashSkill : ChakraSkill
+public class DashSkill : ChakraSkill, IPlayerAttack
 {
-    //GameObject fireball;
+    int hitstun = 120;
     float range = 5;
     Vector2 endpoint;
+    
 
     public DashSkill(Player player, ChakraIcon _icon)
     {
@@ -18,36 +19,40 @@ public class DashSkill : ChakraSkill
     protected override void Execute()
     {
         base.Execute();
-        //open = false;
+        open = false;
         icon.UpdateImage(open);
 
-        RaycastHit2D[] line = HitTargets(Physics2D.RaycastAll(_player.transform.position, _player.aimVector, range, 8));
+        List<Enemy> hitTargets = HitTargets(Physics2D.RaycastAll(_player.transform.position, _player.aimVector, range));
+
+        foreach (Enemy enem in hitTargets)
+        {
+            Debug.Log("hit lol 2");
+            enem.OnEnemyHit(this, _player.transform.position);
+        }
 
         _player.transform.position = endpoint;
     }
 
-    RaycastHit2D[] HitTargets(RaycastHit2D[] _line)
+    List<Enemy> HitTargets(RaycastHit2D[] _line)
     {
         bool collided = false;
         int i = 0;
-        List<RaycastHit2D> hits = new List<RaycastHit2D>();
+        List<Enemy> hits = new List<Enemy>();
 
         if (_line.Length > 0)
         {
-            while (!collided || i < _line.Length)
+            while (!collided && i < _line.Length)
             {
-                Debug.Log(_line[i].collider);
-                if (_line[i].collider.gameObject.layer == 10)
+                if (_line[i].collider.gameObject.layer == 10) //Terrain
                 {
-                    Debug.Log(_line[i].point);
-
                     collided = true;
                     endpoint = _line[i].point;
                 }
 
-                if (_line[i].collider.gameObject.layer == 9)
+                if (_line[i].collider.gameObject.layer == 9) //Enemy
                 {
-                    hits.Add(_line[i]);
+                    Debug.Log("hit lol 1");
+                    hits.Add(_line[i].collider.GetComponent<Enemy>());
                 }
 
                 i++;
@@ -59,7 +64,7 @@ public class DashSkill : ChakraSkill
             endpoint = (Vector2)_player.transform.position + _player.aimVector * range;
         }
 
-        return hits.ToArray();
+        return hits;
     }
 
     public void OnDash() //Animation callback
@@ -71,5 +76,10 @@ public class DashSkill : ChakraSkill
     {
         open = true;
         icon.UpdateImage(open);
+    }
+
+    public int GetHitstun()
+    {
+        return hitstun;
     }
 }

@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : MonoBehaviour, IPlayerAttack
 {
     public float speed;
+    int hitstun = 40;
 
     private void Update()
     {
@@ -18,5 +19,10 @@ public class Fireball : MonoBehaviour
             EventManager.Instance.Trigger("OnFireballHit");
         }
         Destroy(gameObject);
+    }
+
+    public int GetHitstun()
+    {
+        return hitstun;
     }
 }
