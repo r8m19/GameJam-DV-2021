@@ -6,12 +6,12 @@ public class JabAttack : MonoBehaviour, IPlayerAttack
 {
     public float speed;
     private int hitstun = 10;
+    private int damage = 10;
 
     private void Start()
     {
         StartCoroutine(Attack());
     }
-
 
     IEnumerator Attack()
     {
@@ -32,8 +32,8 @@ public class JabAttack : MonoBehaviour, IPlayerAttack
         }
     }
 
-    int IPlayerAttack.GetHitstun()
+    public PlayerHit GetPlayerHit()
     {
-        return hitstun;
+        return new PlayerHit(damage, hitstun, transform.position);
     }
 }

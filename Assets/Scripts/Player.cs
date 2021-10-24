@@ -45,11 +45,9 @@ public class Player : MonoBehaviour
         chakraSkills[2] = new DashSkill(this, chakraIcons[2]);
         chakraSkills[3] = new HeartSkill(this, chakraIcons[3]);
         chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
+        chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
+        chakraSkills[6] = new HeartSkill(this, chakraIcons[6]);
 
-        for (int i = 5; i < 7; i++)
-        {
-            chakraSkills[i] = new JabSkill(this, chakraIcons[i]);
-        }        
     }
 
     void Move()

@@ -6,6 +6,7 @@ public class Fireball : MonoBehaviour, IPlayerAttack
 {
     public float speed;
     int hitstun = 40;
+    int damage = 20;
 
     private void Update()
     {
@@ -21,8 +22,8 @@ public class Fireball : MonoBehaviour, IPlayerAttack
         Destroy(gameObject);
     }
 
-    public int GetHitstun()
+    public PlayerHit GetPlayerHit()
     {
-        return hitstun;
+        return new PlayerHit(damage, hitstun, transform.position);
     }
 }

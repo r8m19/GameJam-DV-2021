@@ -50,7 +50,7 @@ class ShooterSleepState : IState
 
     public void OnExit()
     {
-
+        _dog.lastState = "Sleep";
     }
 
     public void OnUpdate()
@@ -79,7 +79,7 @@ class ShooterShootingState : IState
 
     public void OnExit()
     {
-
+        _dog.lastState = "Shoot";
     }
 
     float next;

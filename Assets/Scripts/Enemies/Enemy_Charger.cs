@@ -72,7 +72,6 @@ class ChargerPatrolState : IState
     {
         if (Vector2.Distance(_dog.transform.position, _dog.target.transform.position) < _dog.visionRange)
         {
-            Debug.Log("Player Detected");
             _sm.ChangeState("Chase");
         }
     }

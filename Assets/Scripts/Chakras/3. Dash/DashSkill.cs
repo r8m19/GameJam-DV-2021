@@ -5,6 +5,8 @@ using UnityEngine;
 public class DashSkill : ChakraSkill, IPlayerAttack
 {
     int hitstun = 80;
+    int damage = 5;
+
     float range = 5;
     Vector2 endpoint;
     Afterimage aftimg;
@@ -27,7 +29,7 @@ public class DashSkill : ChakraSkill, IPlayerAttack
 
         foreach (Enemy enem in hitTargets)
         {
-            enem.OnEnemyHit(this, _player.transform.position);
+            enem.OnEnemyHit(this);
         }
         if (hitTargets.Count > 0)
             Open();
@@ -56,7 +58,6 @@ public class DashSkill : ChakraSkill, IPlayerAttack
 
                 if (_line[i].collider.gameObject.layer == 9) //Enemy
                 {
-                    Debug.Log("hit lol 1");
                     hits.Add(_line[i].collider.GetComponent<Enemy>());
                 }
 
@@ -82,8 +83,8 @@ public class DashSkill : ChakraSkill, IPlayerAttack
         Open();
     }
 
-    public int GetHitstun()
+    public PlayerHit GetPlayerHit()
     {
-        return hitstun;
+        return new PlayerHit(damage, hitstun, _player.transform.position);
     }
 }
