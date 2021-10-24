@@ -21,6 +21,7 @@ public class DashSkill : ChakraSkill, IPlayerAttack
     {
         base.Execute();
         Close();
+        _player.StartCoroutine(_player.Invencibility(15));
 
         List<Enemy> hitTargets = HitTargets(Physics2D.RaycastAll(_player.transform.position, _player.aimVector, range));
 
