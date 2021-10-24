@@ -5,7 +5,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class ThirdEyeAttack : MonoBehaviour, IPlayerAttack
 {
-    public int hitstun = 20;
+    public int hitstun = 2;
     public int damage = 999;
     public float speed;
 
@@ -40,7 +40,7 @@ public class ThirdEyeAttack : MonoBehaviour, IPlayerAttack
                 }
                 killed = true;
             }
-            expanding = -8;
+            expanding = -16;
         }
         if (_light.pointLightOuterRadius < 0)
         {

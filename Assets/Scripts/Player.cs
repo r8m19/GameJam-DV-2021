@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
                 chakraSkills[i].TryExecute();
             }
         }
+
+        anim.SetFloat("spd", speed);
     }
 
     private void FixedUpdate()

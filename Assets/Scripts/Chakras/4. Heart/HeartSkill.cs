@@ -12,13 +12,15 @@ public class HeartSkill : ChakraSkill
         icon = _icon;
     }
 
-    void OnClose()
+    public override void Close()
     {
+        base.Close();
         _player.speed -= speedBonus;
     }
 
-    void OnOpen()
+    public override void Open()
     {
+        base.Open();
         _player.speed += speedBonus;
     }
 

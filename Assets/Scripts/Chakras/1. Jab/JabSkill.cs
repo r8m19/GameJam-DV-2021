@@ -17,8 +17,8 @@ public class JabSkill : ChakraSkill
     protected override void Execute()
     {
         base.Execute();
-        Close();
-        _player.anim.SetTrigger("Jab");
+        //Close();
+        _player.anim.SetTrigger("jab");
     }
 
     public void OnJabStart()

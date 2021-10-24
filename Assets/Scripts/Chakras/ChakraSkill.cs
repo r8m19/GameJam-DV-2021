@@ -25,13 +25,13 @@ public class ChakraSkill
 
     }
 
-    public void Close()
+    public virtual void Close()
     {
         open = false;
         icon.UpdateImage(open);
     }
 
-    public void Open()
+    public virtual void Open()
     {
         open = true;
         icon.UpdateImage(open);

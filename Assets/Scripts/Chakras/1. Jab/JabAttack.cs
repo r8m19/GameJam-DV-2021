@@ -15,7 +15,7 @@ public class JabAttack : MonoBehaviour, IPlayerAttack
 
     IEnumerator Attack()
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 45; i++)
         {
             transform.position += transform.right * speed * Time.deltaTime;
             yield return new WaitForEndOfFrame();
