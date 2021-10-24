@@ -7,6 +7,7 @@ public class ThirdEyeAttack : MonoBehaviour, IPlayerAttack
 {
     public int hitstun = 20;
     public int damage = 999;
+    public float speed;
 
     Light2D _light;
     int expanding = 1;
@@ -24,11 +25,11 @@ public class ThirdEyeAttack : MonoBehaviour, IPlayerAttack
 
     private void Update()
     {
-        _light.pointLightOuterRadius += 0.016f * expanding;
-        _light.pointLightInnerRadius += 0.01f * expanding;
-        _light.intensity += 0.01f * expanding;
+        _light.pointLightOuterRadius += 1.6f * speed * expanding * Time.deltaTime;
+        _light.pointLightInnerRadius += 1f * speed * expanding * Time.deltaTime;
+        _light.intensity += 1f * speed * expanding * Time.deltaTime;
 
-        if (_light.pointLightOuterRadius >= 23)
+        if (_light.pointLightOuterRadius >= 25)
         {
             if (!killed)
             {

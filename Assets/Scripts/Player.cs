@@ -47,7 +47,6 @@ public class Player : MonoBehaviour
         chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
         chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
         chakraSkills[6] = new HeartSkill(this, chakraIcons[6]);
-
     }
 
     void Move()

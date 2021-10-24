@@ -87,3 +87,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitstun: 20
   damage: 999
+  speed: 6
