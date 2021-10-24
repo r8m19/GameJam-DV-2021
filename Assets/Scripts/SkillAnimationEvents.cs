@@ -24,4 +24,19 @@ public class SkillAnimationEvents : MonoBehaviour
     {
         (player.chakraSkills[1] as FireballSkill).OnFireballLaunch();
     }
+
+    public void OnHeavyStart()
+    {
+        (player.chakraSkills[4] as HeavySkill).OnHeavyStart();
+    }
+
+    public void OnHeavyExplode()
+    {
+        (player.chakraSkills[4] as HeavySkill).OnHeavyExplode();
+    }
+
+    public void OnHeavyEnd()
+    {
+        (player.chakraSkills[4] as HeavySkill).OnHeavyEnd();
+    }
 }

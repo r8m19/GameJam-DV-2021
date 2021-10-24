@@ -17,8 +17,7 @@ public class FireballSkill : ChakraSkill
     protected override void Execute()
     {
         base.Execute();
-        open = false;
-        icon.UpdateImage(open);
+        Close();
         _player.anim.SetTrigger("Fireball");
     }
 
@@ -31,7 +30,6 @@ public class FireballSkill : ChakraSkill
 
     private void OnFireballHit(params object[] parameters)
     {
-        open = true;
-        icon.UpdateImage(open);
+        Open();
     }
 }

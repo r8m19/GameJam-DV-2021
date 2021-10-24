@@ -8,11 +8,10 @@ public class ChakraSkill
     public bool open = true;
     public ChakraIcon icon;
 
-    public void TryExecute()
+    public virtual void TryExecute()
     {
         if (open)
         {
-            open = false;
             Execute();
         }
         else
@@ -24,5 +23,17 @@ public class ChakraSkill
     protected virtual void Execute()
     {
 
+    }
+
+    public void Close()
+    {
+        open = false;
+        icon.UpdateImage(open);
+    }
+
+    public void Open()
+    {
+        open = true;
+        icon.UpdateImage(open);
     }
 }

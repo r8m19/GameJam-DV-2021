@@ -17,8 +17,7 @@ public class JabSkill : ChakraSkill
     protected override void Execute()
     {
         base.Execute();
-        open = false;
-        icon.UpdateImage(open);
+        Close();
         _player.anim.SetTrigger("Jab");
     }
 
@@ -32,8 +31,7 @@ public class JabSkill : ChakraSkill
 
     private void OnJabHit(params object[] parameters)
     {
-        open = true;
-        icon.UpdateImage(open);
+        Open();
     }
 
 }

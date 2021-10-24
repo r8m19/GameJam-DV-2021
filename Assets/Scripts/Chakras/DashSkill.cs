@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class DashSkill : ChakraSkill, IPlayerAttack
 {
-    int hitstun = 120;
+    int hitstun = 80;
     float range = 5;
     Vector2 endpoint;
-    
+    Afterimage aftimg;
 
     public DashSkill(Player player, ChakraIcon _icon)
     {
         _player = player;
         icon = _icon;
         EventManager.Instance.Subscribe("OnDashHit", OnDashHit);
+        aftimg = Resources.Load<Afterimage>("Afterimage");
     }
 
     protected override void Execute()
     {
         base.Execute();
-        open = false;
-        icon.UpdateImage(open);
+        Close();
 
         List<Enemy> hitTargets = HitTargets(Physics2D.RaycastAll(_player.transform.position, _player.aimVector, range));
 
         foreach (Enemy enem in hitTargets)
         {
-            Debug.Log("hit lol 2");
             enem.OnEnemyHit(this, _player.transform.position);
         }
+        if (hitTargets.Count > 0)
+            Open();
+
+        Afterimage go = GameObject.Instantiate<Afterimage>(aftimg);
+        go.Display(endpoint, _player.transform.position - (Vector3)_player.aimVector * _player.speed * Time.deltaTime * 60);
 
         _player.transform.position = endpoint;
     }
@@ -74,8 +78,7 @@ public class DashSkill : ChakraSkill, IPlayerAttack
 
     private void OnDashHit(params object[] parameters)
     {
-        open = true;
-        icon.UpdateImage(open);
+        Open();
     }
 
     public int GetHitstun()
