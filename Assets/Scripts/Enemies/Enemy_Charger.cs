@@ -42,7 +42,7 @@ public class Enemy_Charger : Enemy
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0.4705882f, 0.7607843f, 0.4470588f);
+        Gizmos.color = new Color(0.4705882f, 0.7607843f, 0.4470588f); //unity collider green
         Gizmos.DrawWireSphere(transform.position, visionRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
