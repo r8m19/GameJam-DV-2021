@@ -25,7 +25,6 @@ public class Enemy_Charger : Enemy
         if (!target)
             target = GameObject.FindObjectOfType<Player>();
 
-        Debug.Log(sm);
         sm.AddState("Patrol", new ChargerPatrolState(sm, this));
         sm.AddState("Chase",  new ChargerChaseState(sm, this));
         sm.AddState("Attack", new ChargerAttackState(sm, this));

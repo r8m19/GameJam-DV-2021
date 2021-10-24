@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
             anim = GetComponent<Animator>();
 
         InitializeSkills();
-        
     }
 
     private void Update()

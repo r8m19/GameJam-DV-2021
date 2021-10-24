@@ -58,13 +58,16 @@ class HitstunState : IState
     void IState.OnEnter()
     {
         _histstun = _enemy.currentHitstun;
+        _enemy.StopCoroutine(TakePushback());
+        _enemy.StopCoroutine(TakeHitstun());
+
         _enemy.StartCoroutine(TakePushback());
         _enemy.StartCoroutine(TakeHitstun());
     }
 
     void IState.OnExit()
     {
-        _enemy.lastState = "Hitstun";
+
     }
 
     void IState.OnUpdate()
