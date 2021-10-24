@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPlayerAttack
 {
-    int GetHitstun();
+    public PlayerHit GetPlayerHit();
 }

@@ -5,11 +5,7 @@ using UnityEngine;
 public class HeavyAttack : MonoBehaviour, IPlayerAttack
 {
     private int hitstun = 120;
-
-    public int GetHitstun()
-    {
-        return hitstun;
-    }
+    private int damage = 120;
 
     // Start is called before the first frame update
     void Start()
@@ -25,5 +21,10 @@ public class HeavyAttack : MonoBehaviour, IPlayerAttack
     private void OnParticleSystemStopped()
     {
         Destroy(gameObject);   
+    }
+
+    public PlayerHit GetPlayerHit()
+    {
+        return new PlayerHit(damage, hitstun, transform.position);
     }
 }

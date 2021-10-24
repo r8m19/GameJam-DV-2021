@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public Vector2 aimVector;
     [HideInInspector] public Animator anim;
 
+    private bool invulnerable = false;
+
     private void Awake()
     {
         if (!anim)
@@ -43,11 +45,9 @@ public class Player : MonoBehaviour
         chakraSkills[2] = new DashSkill(this, chakraIcons[2]);
         chakraSkills[3] = new HeartSkill(this, chakraIcons[3]);
         chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
+        chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
+        chakraSkills[6] = new HeartSkill(this, chakraIcons[6]);
 
-        for (int i = 5; i < 7; i++)
-        {
-            chakraSkills[i] = new JabSkill(this, chakraIcons[i]);
-        }        
     }
 
     void Move()
@@ -57,7 +57,42 @@ public class Player : MonoBehaviour
         aimVector.Normalize();
 
         transform.position += (Input.GetAxis("Horizontal") * Vector3.right + Input.GetAxis("Vertical") * Vector3.up) * Time.deltaTime * speed;
+
+        if (aimVector == Vector2.zero)
+            aimVector = transform.right;
         transform.right = aimVector;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 11)
+        {
+            TakeDamage();
+        }
+    }
+
+    void TakeDamage()
+    {
+        if (invulnerable)
+            return;
+
+        int rng; 
+        do
+        {
+            rng = Random.Range(0, 7);
+        } while (!chakraSkills[rng].open);
+
+        chakraSkills[rng].Close();
+    }
+
+    public IEnumerator Invencibility(int frames)
+    {
+        invulnerable = true;
+        for (int i = 0; i <= frames; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        invulnerable = false;
     }
 
     private void OnDrawGizmos()
