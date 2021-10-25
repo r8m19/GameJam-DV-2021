@@ -57,8 +57,15 @@ class ShooterSleepState : IState
     {
         if (Vector3.Distance(_dog.transform.position, _dog.target.transform.position) < _dog.visionRange)
         {
-            _sm.ChangeState("Shoot");
+            _dog.anim.SetTrigger("wakeup");
+            _dog.StartCoroutine(Delay());
         }
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
+        _sm.ChangeState("Shoot");
     }
 }
 
@@ -85,6 +92,8 @@ class ShooterShootingState : IState
     float next;
     public void OnUpdate()
     {
+        _dog.transform.right = new Vector2((_dog.target.transform.position - _dog.transform.position).normalized.x, 0);
+
         if (next <= Time.time)
         {
             next = Time.time + _dog.fireRate;
@@ -94,6 +103,7 @@ class ShooterShootingState : IState
 
     void Shoot()
     {
+        _dog.anim.SetTrigger("shoot");
         GameObject go = GameObject.Instantiate(_dog.fireball, _dog.transform.position, Quaternion.identity);
         go.transform.right = (_dog.target.transform.position - _dog.transform.position).normalized;
     }

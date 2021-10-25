@@ -18,7 +18,7 @@ public class CrownAttack : MonoBehaviour, IPlayerAttack
         
     }
 
-    private void OnParticleSystemStopped()
+    private void OnAnimationEnd()
     {
         Destroy(gameObject);   
     }

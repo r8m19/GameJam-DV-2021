@@ -16,7 +16,7 @@ public class CrownSkill : ChakraSkill
     {
         base.Execute();
         Close();
-        GameObject.Instantiate(crownAttack, _player.transform.position, Quaternion.identity);
+        GameObject.Instantiate(crownAttack, _player.transform.position - 1f * Vector3.up, Quaternion.identity);
     }
     
     void OnCrownHit()
