@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
     public float speed;
+    public bool weakState = false;
     public ChakraSkill[] chakraSkills = new ChakraSkill[7];
     public ChakraIcon[]  chakraIcons  = new ChakraIcon[7];
     public KeyCode[]     attackInputs = new KeyCode[7];
@@ -14,11 +16,14 @@ public class Player : MonoBehaviour
     [HideInInspector] public Animator anim;
 
     private bool invulnerable = false;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         if (!anim)
             anim = GetComponent<Animator>();
+        if (!spriteRenderer)
+            spriteRenderer = GetComponent<SpriteRenderer>();
 
         InitializeSkills();
     }
@@ -70,14 +75,24 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == 9 || collision.gameObject.layer == 11)
         {
-            TakeDamage();
+            TakeDamage(collision.transform.position);
         }
     }
 
-    void TakeDamage()
+    void TakeDamage(Vector2 hitPosition)
     {
         if (invulnerable)
             return;
+
+        IEnumerable<ChakraSkill> filteringQuery =
+            from ch in chakraSkills
+            where ch.open == false
+            select ch;
+        Debug.Log(filteringQuery.Count());
+
+
+        StartCoroutine(Invencibility(100, true));
+        StartCoroutine(Hurt(15, hitPosition));
 
         int rng; 
         do
@@ -88,14 +103,37 @@ public class Player : MonoBehaviour
         chakraSkills[rng].Close();
     }
 
-    public IEnumerator Invencibility(int frames)
+    public IEnumerator Invencibility(int frames, bool display = false)
     {
         invulnerable = true;
+        int visible = 5;
         for (int i = 0; i <= frames; i++)
         {
+            if (display)
+            {
+                visible--;
+                if (visible <= 0)
+                {
+                    spriteRenderer.enabled = !spriteRenderer.enabled;
+                    visible = 5;
+                }
+            }
+
             yield return new WaitForFixedUpdate();
         }
         invulnerable = false;
+    }
+
+    public IEnumerator Hurt(int frames, Vector2 hitPosition)
+    {
+        anim.SetBool("hurt", true);
+        Vector2 backDir = ((Vector2)transform.position - hitPosition).normalized;
+        for (int i = 0; i <= frames; i++)
+        {
+            transform.position += (Vector3)backDir * 3f * Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        anim.SetBool("hurt", false);
     }
 
     private void OnDrawGizmos()

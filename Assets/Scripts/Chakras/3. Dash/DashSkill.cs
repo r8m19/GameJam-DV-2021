@@ -73,11 +73,6 @@ public class DashSkill : ChakraSkill, IPlayerAttack
         return hits;
     }
 
-    public void OnDash() //Animation callback
-    {
-        
-    }
-
     private void OnDashHit(params object[] parameters)
     {
         Open();

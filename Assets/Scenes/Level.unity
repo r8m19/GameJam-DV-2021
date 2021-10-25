@@ -224,7 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 82024210}
   - component: {fileID: 82024211}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 984002816}
   - component: {fileID: 984002817}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chakra Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1428,7 +1428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1246203824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1595,7 +1595,7 @@ GameObject:
   - component: {fileID: 1591982666}
   - component: {fileID: 1591982665}
   - component: {fileID: 1591982664}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: i know what the dog doin but im not gonna tell you
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1700,7 +1700,9 @@ GameObject:
   - component: {fileID: 1953283241}
   - component: {fileID: 1953283240}
   - component: {fileID: 1953283239}
-  m_Layer: 0
+  - component: {fileID: 1953283245}
+  - component: {fileID: 1953283244}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1830,6 +1832,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1953283244
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953283238}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.1800549, y: -0.30009198}
+  m_Size: {x: 0.6231084, y: 1.2585969}
+  m_Direction: 0
+--- !u!50 &1953283245
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953283238}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2120702197
 GameObject:
   m_ObjectHideFlags: 0
