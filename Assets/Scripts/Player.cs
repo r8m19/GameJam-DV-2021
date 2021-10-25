@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public ChakraSkill[] chakraSkills = new ChakraSkill[7];
     public ChakraIcon[]  chakraIcons  = new ChakraIcon[7];
     public KeyCode[]     attackInputs = new KeyCode[7];
+    public GameObject    pointer;
 
     [HideInInspector] public Vector2 aimVector;
     [HideInInspector] public Animator anim;
@@ -44,11 +45,11 @@ public class Player : MonoBehaviour
     {
         chakraSkills[0] = new JabSkill(this, chakraIcons[0]);
         chakraSkills[1] = new FireballSkill(this, chakraIcons[1]);
-        chakraSkills[2] = new DashSkill(this, chakraIcons[2]);
+        chakraSkills[2] = new DashSkill(this,  chakraIcons[2]);
         chakraSkills[3] = new HeartSkill(this, chakraIcons[3]);
         chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
         chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
-        chakraSkills[6] = new HeartSkill(this, chakraIcons[6]);
+        chakraSkills[6] = new CrownSkill(this, chakraIcons[6]);
     }
 
     void Move()
@@ -61,7 +62,8 @@ public class Player : MonoBehaviour
 
         if (aimVector == Vector2.zero)
             aimVector = transform.right;
-        transform.right = aimVector;
+        pointer.transform.right = aimVector;
+        transform.right = new Vector2(aimVector.x, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

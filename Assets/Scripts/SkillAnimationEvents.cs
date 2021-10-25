@@ -15,9 +15,19 @@ public class SkillAnimationEvents : MonoBehaviour
             player = GetComponent<Player>();
     }
 
-    public void OnJabStart()
+    public void Jab1()
     {
-        (player.chakraSkills[0] as JabSkill).OnJabStart();
+        (player.chakraSkills[0] as JabSkill).OnJab1();
+    }
+
+    public void Jab2()
+    {
+        (player.chakraSkills[0] as JabSkill).OnJab2();
+    }
+
+    public void Jab3()
+    {
+        (player.chakraSkills[0] as JabSkill).OnJab3();
     }
 
     public void OnFireballLaunch()

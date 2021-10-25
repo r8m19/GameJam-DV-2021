@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: -4787742157041868740}
   - component: {fileID: -2488438724474513467}
   m_Layer: 7
-  m_Name: Heavy
+  m_Name: Crown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

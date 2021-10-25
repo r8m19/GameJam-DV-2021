@@ -12,12 +12,14 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public string lastState;
     [HideInInspector] public PlayerHit lastHit;
+    [HideInInspector] public Animator anim;
 
     protected virtual void Awake()
     {
         sm = new StateMachine();
         sm.AddState("Hitstun", new HitstunState(sm, this));
 
+        anim = GetComponent<Animator>();
         deathParticles = Resources.Load<GameObject>("DeathParticles");
         currentHP = maxHP;
     }
@@ -68,7 +70,7 @@ class HitstunState : IState
     void IState.OnEnter()
     {
         hit = _enemy.lastHit;
-        Debug.Log("Entered hitstun from " + hit + " damage: " + hit.damage + " histun: " + hit.hitstun);
+        _enemy.anim.SetTrigger("hurt");
 
         _enemy.currentHP -= hit.damage;
         _enemy.StopCoroutine(TakePushback());
@@ -80,7 +82,12 @@ class HitstunState : IState
 
     void IState.OnExit()
     {
+        if (_enemy.currentHP <= 0)
+        {
+            _enemy.Die();
+        }
 
+        _enemy.anim.SetTrigger("unhurt");
     }
 
     void IState.OnUpdate()
@@ -95,11 +102,6 @@ class HitstunState : IState
             yield return new WaitForFixedUpdate();
         }
         _sm.ChangeState(_enemy.lastState);
-
-        if (_enemy.currentHP <= 0)
-        {
-            _enemy.Die();
-        }
     }
 
     IEnumerator TakePushback()

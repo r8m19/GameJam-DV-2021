@@ -17,16 +17,24 @@ public class JabSkill : ChakraSkill
     protected override void Execute()
     {
         base.Execute();
-        //Close();
+        Close();
         _player.anim.SetTrigger("jab");
     }
 
-    public void OnJabStart()
+    public void OnJab1()
     {
-        Debug.Log("OnJabStart");
         GameObject go = GameObject.Instantiate(jabAttack, _player.transform.position, Quaternion.identity);
         go.transform.right = _player.aimVector;
-        //Debug.Log("Jab Skill executed correctly!");
+    }
+    public void OnJab2()
+    {
+        GameObject go = GameObject.Instantiate(jabAttack, _player.transform.position, Quaternion.identity);
+        go.transform.right = _player.aimVector;
+    }
+    public void OnJab3()
+    {
+        GameObject go = GameObject.Instantiate(jabAttack, _player.transform.position, Quaternion.identity);
+        go.transform.right = _player.aimVector;
     }
 
     private void OnJabHit(params object[] parameters)

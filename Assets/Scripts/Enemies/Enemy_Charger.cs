@@ -34,8 +34,7 @@ public class Enemy_Charger : Enemy
 
     protected override void Update()
     {
-        if (target)
-            playerDir = (target.transform.position - transform.position).normalized;
+        playerDir = (target.transform.position - transform.position).normalized;
 
         base.Update();
     }
@@ -46,6 +45,12 @@ public class Enemy_Charger : Enemy
         Gizmos.DrawWireSphere(transform.position, visionRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+    public void OnAttackStart()
+    {
+        EventManager.Instance.Trigger("helldogAttack");
+    }
+
 }
 
 class ChargerPatrolState : IState
@@ -101,6 +106,7 @@ class ChargerChaseState : IState
     void IState.OnUpdate()
     {
         _dog.transform.position += (Vector3)_dog.playerDir * _dog.chaseSpeed * Time.deltaTime;
+        _dog.transform.right = new Vector2(_dog.playerDir.x, 0);
 
         if (Vector2.Distance(_dog.target.transform.position, _dog.transform.position) < _dog.attackRange)
         {
@@ -113,6 +119,7 @@ class ChargerAttackState : IState
 {
     Enemy_Charger _dog;
     StateMachine _sm;
+    private bool attacking = false;
 
     public ChargerAttackState(StateMachine sm, Enemy_Charger dog)
     {
@@ -122,33 +129,32 @@ class ChargerAttackState : IState
 
     void IState.OnEnter()
     {
-        Debug.Log("OnAttack");
-        _dog.StartCoroutine(Attack());
+        EventManager.Instance.Subscribe("helldogAttack", OnAttackStart);
+        _dog.anim.SetTrigger("attack");
+        attacking = false;
     }
 
     void IState.OnExit()
     {
+        EventManager.Instance.Unsubscribe("helldogAttack", OnAttackStart);
+        _dog.anim.SetTrigger("land");
         _dog.lastState = "Attack";
     }
 
     void IState.OnUpdate()
     {
+        if(!attacking)
+        _dog.transform.right = new Vector2(_dog.playerDir.x, 0);
+    }
 
+    public void OnAttackStart(params object[] parameters)
+    {
+        _dog.StartCoroutine(Attack());
     }
 
     IEnumerator Attack()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                _dog.transform.position -= (Vector3)_dog.playerDir * _dog.hopDistance;
-                yield return new WaitForFixedUpdate();
-            }
-
-            yield return new WaitForSeconds(.3f);
-        }
-
+        attacking = true;
         _dog.attackPoint = (Vector2)_dog.target.transform.position + _dog.playerDir * _dog.overshoot;
         _dog.preAttackPoint = _dog.transform.position;
 
