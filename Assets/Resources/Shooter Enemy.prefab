@@ -100,7 +100,7 @@ MonoBehaviour:
   currentHP: 0
   lastState: 
   anim: {fileID: 0}
-  fireRate: 1
+  fireRate: 2
   visionRange: 9
   target: {fileID: 0}
   fireball: {fileID: 4271742426829989003, guid: 52a1f4f4a940bd544ac3d607e3969b6f, type: 3}

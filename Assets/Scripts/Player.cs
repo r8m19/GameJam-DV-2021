@@ -5,7 +5,8 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-    public float speed;
+    public float baseSpeed;
+    public float currentSpeed;
     public bool weakState = false;
     public ChakraSkill[] chakraSkills = new ChakraSkill[7];
     public ChakraIcon[]  chakraIcons  = new ChakraIcon[7];
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
+        currentSpeed = baseSpeed;
+
         InitializeSkills();
     }
 
@@ -38,7 +41,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        anim.SetFloat("spd", speed);
+        anim.SetFloat("spd", currentSpeed);
     }
 
     private void FixedUpdate()
@@ -55,6 +58,11 @@ public class Player : MonoBehaviour
         chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
         chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
         chakraSkills[6] = new CrownSkill(this, chakraIcons[6]);
+
+        foreach (ChakraSkill item in chakraSkills)
+        {
+            item.Open();
+        }
     }
 
     void Move()
@@ -63,7 +71,7 @@ public class Player : MonoBehaviour
         aimVector.y = Input.GetAxisRaw("Vertical");
         aimVector.Normalize();
 
-        transform.position += (Input.GetAxis("Horizontal") * Vector3.right + Input.GetAxis("Vertical") * Vector3.up) * Time.deltaTime * speed;
+        transform.position += (Input.GetAxis("Horizontal") * Vector3.right + Input.GetAxis("Vertical") * Vector3.up) * Time.deltaTime * currentSpeed;
 
         if (aimVector == Vector2.zero)
             aimVector = transform.right;

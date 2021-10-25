@@ -81,7 +81,7 @@ class ShooterShootingState : IState
 
     public void OnEnter()
     {
-        Debug.Log("OnEnter");
+
     }
 
     public void OnExit()

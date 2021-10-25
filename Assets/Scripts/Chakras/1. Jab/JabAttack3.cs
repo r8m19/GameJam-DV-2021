@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JabAttack : MonoBehaviour, IPlayerAttack
+public class JabAttack3 : MonoBehaviour, IPlayerAttack
 {
     public float speed;
     private int hitstun = 10;

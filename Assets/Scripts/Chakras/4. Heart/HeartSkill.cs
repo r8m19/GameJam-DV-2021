@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeartSkill : ChakraSkill
 {
-    float speedBonus;
+    float speedBonus = 3;
 
     public HeartSkill(Player player, ChakraIcon _icon)
     {
@@ -15,13 +15,13 @@ public class HeartSkill : ChakraSkill
     public override void Close()
     {
         base.Close();
-        _player.speed -= speedBonus;
+        _player.baseSpeed -= speedBonus;
     }
 
     public override void Open()
     {
         base.Open();
-        _player.speed += speedBonus;
+        _player.baseSpeed += speedBonus;
     }
 
     public override void TryExecute()

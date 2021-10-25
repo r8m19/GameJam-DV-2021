@@ -35,7 +35,7 @@ public class DashSkill : ChakraSkill, IPlayerAttack
             Open();
 
         Afterimage go = GameObject.Instantiate<Afterimage>(aftimg);
-        go.Display(endpoint, _player.transform.position - (Vector3)_player.aimVector * _player.speed * Time.deltaTime * 60);
+        go.Display(endpoint, _player.transform.position - (Vector3)_player.aimVector * _player.baseSpeed * Time.deltaTime * 60);
 
         _player.transform.position = endpoint;
     }

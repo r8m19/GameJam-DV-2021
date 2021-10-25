@@ -20,7 +20,7 @@ public class HeavySkill : ChakraSkill
 
     public void OnHeavyStart()
     {
-        _player.speed = _player.speed * 0.2f;
+        //_player.speed = _player.speed * 0.2f;
     }
 
     public void OnHeavyExplode()
@@ -30,8 +30,7 @@ public class HeavySkill : ChakraSkill
 
     public void OnHeavyEnd()
     {
-        _player.speed = _player.speed * 5f;
-
+        //_player.speed = _player.speed * 5f;
     }
 
     private void OnHeavyHit(params object[] parameters)
