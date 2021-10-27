@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public GameObject player;
+    float shakingTime;
 
-    private void FixedUpdate()
+    /*
+    public static void ScreenShake(float strength, float time)
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        Instance.virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = strength;
+        Instance.shakingTime = time;
+        Instance.startingTime = time;
+        Instance.startinIntensity = strength;
     }
+
+
+    private void Update()
+    {
+        if (shakingTime > 0)
+        {
+            shakingTime -= Time.deltaTime;
+            virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = Mathf.Lerp(0, startinIntensity, shakingTime / startingTime);
+        }
+    }
+    */
 }
