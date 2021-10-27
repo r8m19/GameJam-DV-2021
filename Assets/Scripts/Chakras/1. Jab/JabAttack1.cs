@@ -12,10 +12,14 @@ public class JabAttack1 : MonoBehaviour, IPlayerAttack
     {
         StartCoroutine(Attack());
     }
+    private void Update()
+    {
+        speed -= 0.3f;
+    }
 
     IEnumerator Attack()
     {
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 60; i++)
         {
             transform.position += transform.right * speed * Time.deltaTime;
             yield return new WaitForEndOfFrame();
@@ -36,4 +40,6 @@ public class JabAttack1 : MonoBehaviour, IPlayerAttack
     {
         return new PlayerHit(damage, hitstun, transform.position);
     }
+
+
 }
