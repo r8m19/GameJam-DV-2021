@@ -29,11 +29,13 @@ public class ChakraSkill
     {
         open = false;
         icon.UpdateImage(open);
+        EventManager.Instance.Trigger("OnChakraClosed");
     }
 
     public virtual void Open()
     {
         open = true;
         icon.UpdateImage(open);
+        EventManager.Instance.Trigger("OnChakraOpen");
     }
 }

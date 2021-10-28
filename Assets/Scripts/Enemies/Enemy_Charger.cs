@@ -10,9 +10,11 @@ public class Enemy_Charger : Enemy
     public float overshoot;
     public float attackRange;
     public float visionRange;
+
     
     [Header("Objects")]
     public Player target;
+    public Transform[] patrolPoints = new Transform[5];
 
     [HideInInspector] public Vector2 playerDir;
     [HideInInspector] public Vector2 attackPoint;
@@ -77,8 +79,25 @@ class ChargerPatrolState : IState
         _dog.lastState = "Patrol";
     }
 
+    int index = 0;
     void IState.OnUpdate()
     {
+        if (_dog.patrolPoints != null && _dog.patrolPoints.Length > 0)
+        {
+            Vector3 nextPointDir = _dog.patrolPoints[index].position - _dog.transform.position;
+
+            if (nextPointDir.magnitude <= .3f)
+            {
+                index++;
+                if (index >= _dog.patrolPoints.Length) index = 0;
+            }
+
+            _dog.transform.position += nextPointDir.normalized * _dog.chaseSpeed * Time.deltaTime;
+            _dog.transform.right = new Vector2(nextPointDir.normalized.x, 0);
+        }
+
+
+
         if (Vector2.Distance(_dog.transform.position, _dog.target.transform.position) < _dog.visionRange)
         {
             _sm.ChangeState("Chase");

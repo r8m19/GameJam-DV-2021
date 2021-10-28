@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public float baseSpeed;
+    public float slowSpeed;
     public float currentSpeed;
     public bool weakState = false;
     public ChakraSkill[] chakraSkills = new ChakraSkill[7];
@@ -33,8 +35,42 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
+        EventManager.Instance.Subscribe("OnChakraClosed", OnChakraClosed);
+        EventManager.Instance.Subscribe("OnChakraOpen", OnChakraOpen);
         RestoreSpeed();
         currentSpeed = baseSpeed;
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe("OnChakraClosed", OnChakraClosed);
+        EventManager.Instance.Unsubscribe("OnChakraOpen", OnChakraOpen);
+        RestoreSpeed();
+        currentSpeed = baseSpeed;
+    }
+
+    void OnChakraClosed(params object[] parameters)
+    {
+        IEnumerable<ChakraSkill> openChakras =
+       from ch in chakraSkills
+       where ch.open == true
+       select ch;
+
+        if (openChakras.Count() == 0)
+        {
+            EnterWeakState();
+        }
+    }
+    void OnChakraOpen(params object[] parameters)
+    {
+        IEnumerable<ChakraSkill> openChakras =
+       from ch in chakraSkills
+       where ch.open == true
+       select ch;
+
+        if (openChakras.Count() == 1)
+        {
+            ExitWeakState();
+        }
     }
 
     private void Update()
@@ -74,11 +110,6 @@ public class Player : MonoBehaviour
             chakraSkills[i].Open();
             chakraIcons[i].gameObject.SetActive(true);
         }
-
-        foreach (ChakraSkill item in chakraSkills)
-        {
-            item.Open();
-        }
     }
 
     void Move()
@@ -97,28 +128,34 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 11)
+        if (collision.gameObject.layer == 9 || collision.gameObject.layer == 11) //Enemy or Enemy Projectile
         {
             TakeDamage(collision.transform.position);
         }
 
-        if (collision.gameObject.layer == 12)
+        if (collision.gameObject.layer == 12) //Meditation Point
         {
-            IEnumerable<ChakraSkill> filteringQuery =
+            IEnumerable<ChakraSkill> closedChakras =
                 from ch in chakraSkills
                 where ch.open == false
                 select ch;
-            List<ChakraSkill> cha = filteringQuery.ToList<ChakraSkill>();
 
-            if (cha.Count > 0)
+            if (closedChakras.Count() > 0)
             {
-                Debug.Log("aaa");
                 anim.SetTrigger("meditate");
-                foreach (ChakraSkill item in cha)
+                Invencibility(240);
+                foreach (ChakraSkill item in closedChakras)
                 {
                     item.Open();
                 }
             }
+        }
+
+        if(collision.gameObject.layer == 13) //Level End
+        {
+            anim.SetTrigger("meditate");
+            Invencibility(60);
+            StartCoroutine(NextScene());
         }
     }
 
@@ -127,21 +164,28 @@ public class Player : MonoBehaviour
         if (invulnerable)
             return;
 
-        IEnumerable<ChakraSkill> filteringQuery =
+        IEnumerable<ChakraSkill> openChakras =
             from ch in chakraSkills
-            where ch.open == false
+            where ch.open == true
             select ch;
 
         StartCoroutine(Invencibility(100, true));
         StartCoroutine(Hurt(15, hitPosition));
 
-        int rng; 
-        do
+        if (openChakras.Count() > 0)
         {
-            rng = Random.Range(0, 7);
-        } while (!chakraSkills[rng].open);
+            int rng;
+            do
+            {
+                rng = Random.Range(0, chakraSkills.Length);
+            } while (!chakraSkills[rng].open);
 
-        chakraSkills[rng].Close();
+            chakraSkills[rng].Close();
+        }
+        else
+        {
+            //Die / Muerte / Funcion de muerte / m word / morir
+        }
     }
 
     public IEnumerator Invencibility(int frames, bool display = false)
@@ -190,5 +234,31 @@ public class Player : MonoBehaviour
     public void SpeedTo0()
     {
         currentSpeed = 0;
+    }
+
+    IEnumerator NextScene()
+    {
+        yield return new WaitForSeconds(.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    void EnterWeakState()
+    {
+        if (!weakState)
+        {
+            baseSpeed -= slowSpeed;
+            weakState = true;
+            RestoreSpeed();
+        }
+    }
+
+    void ExitWeakState()
+    {
+        if (weakState)
+        {
+            baseSpeed += slowSpeed;
+            weakState = false;
+            RestoreSpeed();
+        }
     }
 }

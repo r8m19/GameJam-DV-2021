@@ -11,4 +11,9 @@ public class EnemyFireball : MonoBehaviour
     {
         transform.position += transform.right * Time.deltaTime * speed;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Destroy(gameObject);
+    }
 }
