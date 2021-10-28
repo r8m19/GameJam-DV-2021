@@ -26,9 +26,15 @@ public class Player : MonoBehaviour
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        currentSpeed = baseSpeed;
+        RestoreSpeed();
 
         InitializeSkills();
+    }
+
+    private void OnEnable()
+    {
+        RestoreSpeed();
+        currentSpeed = baseSpeed;
     }
 
     private void Update()
@@ -37,11 +43,12 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(attackInputs[i]))
             {
-                chakraSkills[i].TryExecute();
+                if(i < chakraSkills.Length)
+                    chakraSkills[i]?.TryExecute();
             }
         }
 
-        anim.SetFloat("spd", currentSpeed);
+        anim.SetFloat("spd", Mathf.Abs( Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
     }
 
     private void FixedUpdate()
@@ -51,13 +58,22 @@ public class Player : MonoBehaviour
 
     void InitializeSkills()
     {
-        chakraSkills[0] = new JabSkill(this, chakraIcons[0]);
-        chakraSkills[1] = new FireballSkill(this, chakraIcons[1]);
-        chakraSkills[2] = new DashSkill(this,  chakraIcons[2]);
-        chakraSkills[3] = new HeartSkill(this, chakraIcons[3]);
-        chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
-        chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
-        chakraSkills[6] = new CrownSkill(this, chakraIcons[6]);
+        chakraSkills = new ChakraSkill[chakraIcons.Length];
+
+
+        if (chakraSkills.Length > 0) chakraSkills[0] = new JabSkill(this, chakraIcons[0]);
+        if (chakraSkills.Length > 1) chakraSkills[1] = new FireballSkill(this, chakraIcons[1]);
+        if (chakraSkills.Length > 2) chakraSkills[2] = new DashSkill(this,  chakraIcons[2]);
+        if (chakraSkills.Length > 3) chakraSkills[3] = new HeartSkill(this, chakraIcons[3]);
+        if (chakraSkills.Length > 4) chakraSkills[4] = new HeavySkill(this, chakraIcons[4]);
+        if (chakraSkills.Length > 5) chakraSkills[5] = new ThirdEyeSkill(this, chakraIcons[5]);
+        if (chakraSkills.Length > 6) chakraSkills[6] = new CrownSkill(this, chakraIcons[6]);
+
+        for (int i = 0; i < chakraSkills.Length; i++)
+        {
+            chakraSkills[i].Open();
+            chakraIcons[i].gameObject.SetActive(true);
+        }
 
         foreach (ChakraSkill item in chakraSkills)
         {
@@ -85,6 +101,25 @@ public class Player : MonoBehaviour
         {
             TakeDamage(collision.transform.position);
         }
+
+        if (collision.gameObject.layer == 12)
+        {
+            IEnumerable<ChakraSkill> filteringQuery =
+                from ch in chakraSkills
+                where ch.open == false
+                select ch;
+            List<ChakraSkill> cha = filteringQuery.ToList<ChakraSkill>();
+
+            if (cha.Count > 0)
+            {
+                Debug.Log("aaa");
+                anim.SetTrigger("meditate");
+                foreach (ChakraSkill item in cha)
+                {
+                    item.Open();
+                }
+            }
+        }
     }
 
     void TakeDamage(Vector2 hitPosition)
@@ -96,8 +131,6 @@ public class Player : MonoBehaviour
             from ch in chakraSkills
             where ch.open == false
             select ch;
-        Debug.Log(filteringQuery.Count());
-
 
         StartCoroutine(Invencibility(100, true));
         StartCoroutine(Hurt(15, hitPosition));
@@ -148,5 +181,14 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + aimVector);
+    }
+
+    public void RestoreSpeed()
+    {
+        currentSpeed = baseSpeed;
+    }
+    public void SpeedTo0()
+    {
+        currentSpeed = 0;
     }
 }

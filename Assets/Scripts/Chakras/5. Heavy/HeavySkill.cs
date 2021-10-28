@@ -20,17 +20,7 @@ public class HeavySkill : ChakraSkill
 
     public void OnHeavyStart()
     {
-        //_player.speed = _player.speed * 0.2f;
-    }
-
-    public void OnHeavyExplode()
-    {
-        GameObject go = GameObject.Instantiate(heavyAttack, _player.transform.position, Quaternion.identity);
-    }
-
-    public void OnHeavyEnd()
-    {
-        //_player.speed = _player.speed * 5f;
+        GameObject.Instantiate(heavyAttack, _player.transform.position, Quaternion.identity);
     }
 
     private void OnHeavyHit(params object[] parameters)

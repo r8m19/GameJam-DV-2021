@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class CrownAttack : MonoBehaviour, IPlayerAttack
 {
-    private int hitstun = 15;
+    private int hitstun = 40;
     private int damage = 10;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnAnimationEnd()
     {

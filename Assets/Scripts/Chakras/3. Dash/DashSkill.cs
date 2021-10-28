@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DashSkill : ChakraSkill, IPlayerAttack
 {
-    int hitstun = 80;
+    int hitstun = 60;
     int damage = 5;
 
     float range = 5;

@@ -18,6 +18,8 @@ public class Enemy_Charger : Enemy
     [HideInInspector] public Vector2 attackPoint;
     [HideInInspector] public Vector2 preAttackPoint;
 
+    ChargerAttackState attackState;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,9 +27,11 @@ public class Enemy_Charger : Enemy
         if (!target)
             target = GameObject.FindObjectOfType<Player>();
 
+        attackState = new ChargerAttackState(sm, this);
+
         sm.AddState("Patrol", new ChargerPatrolState(sm, this));
         sm.AddState("Chase",  new ChargerChaseState(sm, this));
-        sm.AddState("Attack", new ChargerAttackState(sm, this));
+        sm.AddState("Attack", attackState);
 
         sm.ChangeState("Patrol");
     }
@@ -48,7 +52,7 @@ public class Enemy_Charger : Enemy
 
     public void OnAttackStart()
     {
-        EventManager.Instance.Trigger("helldogAttack");
+        attackState.OnAttackStart();   
     }
 
 }
@@ -129,14 +133,12 @@ class ChargerAttackState : IState
 
     void IState.OnEnter()
     {
-        EventManager.Instance.Subscribe("helldogAttack", OnAttackStart);
         _dog.anim.SetTrigger("attack");
         attacking = false;
     }
 
     void IState.OnExit()
     {
-        EventManager.Instance.Unsubscribe("helldogAttack", OnAttackStart);
         _dog.anim.SetTrigger("land");
         _dog.lastState = "Attack";
     }

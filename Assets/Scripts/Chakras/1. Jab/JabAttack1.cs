@@ -6,7 +6,7 @@ public class JabAttack1 : MonoBehaviour, IPlayerAttack
 {
     public float speed;
     private int hitstun = 10;
-    private int damage = 10;
+    private int damage = 20;
 
     private void Start()
     {
