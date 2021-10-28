@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public GameObject    pointer;
     public AudioClip chimeUp;
     public AudioClip chimeDown;
+    public GameObject dyingScreen;
 
 
 
@@ -196,8 +197,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //Die / Muerte / Funcion de muerte / m word / morir
-
+            Instantiate(dyingScreen, transform.position, Quaternion.identity);
         }
     }
 

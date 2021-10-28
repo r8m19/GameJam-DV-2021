@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 341822560766843619}
   - component: {fileID: 341822560766843616}
   - component: {fileID: 341822560766843617}
+  - component: {fileID: 5590158143481076503}
   m_Layer: 0
   m_Name: Die
   m_TagString: Untagged
@@ -154,7 +155,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -7492118340811005465, guid: 0e52e79d2bbfb0b41a871578f032843e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -176,7 +177,7 @@ Animator:
   m_GameObject: {fileID: 341822560766843630}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4db828156d9826e468d17cdc656ecb55, type: 2}
+  m_Controller: {fileID: 9100000, guid: f867764da41173f4faa7c29fa4d1c2df, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -185,3 +186,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5590158143481076503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341822560766843630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1a68ce22b08ac469c636d761f0809d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

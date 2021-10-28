@@ -137,6 +137,7 @@ MonoBehaviour:
   pointer: {fileID: 7325363834778341278}
   chimeUp: {fileID: 8300000, guid: 66a81d3e20ecad84a9dc5bf8632a8d3e, type: 3}
   chimeDown: {fileID: 8300000, guid: 2d819313c0f11d14a8eac4bb5f509862, type: 3}
+  dyingScreen: {fileID: 341822560766843630, guid: 7e9973c123c79a24b895234d3e05e72a, type: 3}
   aimVector: {x: 0, y: 0}
   anim: {fileID: 0}
 --- !u!114 &7325363834542095510
