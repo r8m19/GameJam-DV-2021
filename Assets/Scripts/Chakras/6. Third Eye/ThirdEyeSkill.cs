@@ -18,7 +18,9 @@ public class ThirdEyeSkill : ChakraSkill
         base.Execute();
         Close();
 
-        GameObject.Instantiate(thirdEye, _player.transform.position, Quaternion.identity);        
+        _player.StartCoroutine(_player.Invencibility(180, true));
+        GameObject go = GameObject.Instantiate(thirdEye, _player.transform.position + Vector3.up, Quaternion.identity);
+        go.transform.parent = _player.transform;
     }
 
 }

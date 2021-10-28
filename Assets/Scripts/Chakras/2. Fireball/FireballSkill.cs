@@ -23,7 +23,6 @@ public class FireballSkill : ChakraSkill
 
     public void OnFireballLaunch()
     {
-        Debug.Log("OnFireballLaunch");
         GameObject go = GameObject.Instantiate(fireball, _player.transform.position, Quaternion.identity);
         go.transform.right = _player.aimVector;
     }

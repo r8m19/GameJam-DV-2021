@@ -10,6 +10,7 @@ public class HeavySkill : ChakraSkill
         _player = player;
         icon = _icon;
         heavyAttack = Resources.Load<GameObject>("Heavy");
+        EventManager.Instance.Subscribe("OnHeavyHit", OnHeavyHit);
     }
     protected override void Execute()
     {

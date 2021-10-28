@@ -14,17 +14,24 @@ public class Player : MonoBehaviour
     public ChakraIcon[]  chakraIcons  = new ChakraIcon[7];
     public KeyCode[]     attackInputs = new KeyCode[7];
     public GameObject    pointer;
+    public AudioClip chimeUp;
+    public AudioClip chimeDown;
+
+
 
     [HideInInspector] public Vector2 aimVector;
     [HideInInspector] public Animator anim;
 
     private bool invulnerable = false;
     private SpriteRenderer spriteRenderer;
+    private AudioSource aSource;
 
     private void Awake()
     {
         if (!anim)
             anim = GetComponent<Animator>();
+        if (!aSource)
+            aSource = GetComponent<AudioSource>();
         if (!spriteRenderer)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -55,6 +62,8 @@ public class Player : MonoBehaviour
        where ch.open == true
        select ch;
 
+        aSource.PlayOneShot(chimeDown);
+
         if (openChakras.Count() == 0)
         {
             EnterWeakState();
@@ -66,6 +75,8 @@ public class Player : MonoBehaviour
        from ch in chakraSkills
        where ch.open == true
        select ch;
+
+        aSource.PlayOneShot(chimeUp);
 
         if (openChakras.Count() == 1)
         {
@@ -142,10 +153,11 @@ public class Player : MonoBehaviour
 
             if (closedChakras.Count() > 0)
             {
+                StartCoroutine(Invencibility(300));
                 anim.SetTrigger("meditate");
-                Invencibility(240);
                 foreach (ChakraSkill item in closedChakras)
                 {
+                    if(!(item is ThirdEyeSkill))
                     item.Open();
                 }
             }
@@ -154,7 +166,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.layer == 13) //Level End
         {
             anim.SetTrigger("meditate");
-            Invencibility(60);
+            StartCoroutine(Invencibility(60));
             StartCoroutine(NextScene());
         }
     }
@@ -185,6 +197,7 @@ public class Player : MonoBehaviour
         else
         {
             //Die / Muerte / Funcion de muerte / m word / morir
+
         }
     }
 

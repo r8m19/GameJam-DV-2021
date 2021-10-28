@@ -35,8 +35,11 @@ public class ThirdEyeAttack : MonoBehaviour, IPlayerAttack
             {
                 foreach (Enemy item in GameObject.FindObjectsOfType<Enemy>())
                 {
-                    Debug.Log("about to kill " + item);
-                    item.OnEnemyHit(this);
+                    if (item.GetComponent<Renderer>().isVisible)
+                    {
+                        Debug.Log("about to kill " + item);
+                        item.OnEnemyHit(this);
+                    }
                 }
                 killed = true;
             }
